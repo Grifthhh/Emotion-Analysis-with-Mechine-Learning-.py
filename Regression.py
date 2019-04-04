@@ -14,7 +14,7 @@ data["Rate State"]=[1 if each =="Olumlu" else 0 for each in data["Rate State"]]
 
 #%%
 
-data = data.iloc[:20000, :]
+#data = data.iloc[:20000, :]
 
 #%%
 
