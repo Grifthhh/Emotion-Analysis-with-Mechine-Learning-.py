@@ -14,7 +14,7 @@ data["Rate State"]=[1 if each =="Olumlu" else 0 for each in data["Rate State"]]
 
 #%%
 
-#data = data.iloc[:20000, :]
+data = data.iloc[:1000, :]
 
 #%%
 
@@ -41,7 +41,7 @@ for com in data.Comment:
     
 from sklearn.feature_extraction.text import CountVectorizer
 
-max_feature=1000
+max_feature=5000
 count_vectorizer=CountVectorizer(max_features=max_feature)
 sparce_matrix=count_vectorizer.fit_transform(comment_list).toarray()
 

@@ -78,5 +78,5 @@ rf.fit(x_train,y_train)
 
 #%%
 
- y_pred=rf.predict(x_test)
+y_pred=rf.predict(x_test)
 print("aaccuracy:" ,rf.score(y_pred.reshape(-1,1),y_test))
