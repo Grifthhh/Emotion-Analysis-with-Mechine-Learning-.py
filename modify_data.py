@@ -22,3 +22,17 @@ for com in comments.Comment:
 comm = pd.DataFrame(comm)
 #%%
 comm.to_csv("clean_comments.csv", index = False)
+#%%
+com = pd.read_csv("clean_comments.csv")
+#%%
+
+
+
+
+
+
+
+
+
+
+
