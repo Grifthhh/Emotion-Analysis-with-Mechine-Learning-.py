@@ -34,22 +34,40 @@ com = pd.read_csv('clean_comments.csv')
 #%%
 rates = pd.read_csv('rates.csv')
 #%%
-x = com.comment
-y = rates.rate_state
-#%%
-from sklearn.model_selection import train_test_split
-#%%
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.8)
+x = com.comment.iloc[:10000]
+y = rates.rate_state.iloc[:10000]
 #%%
 from sklearn.feature_extraction.text import CountVectorizer
 #%%
-cv = CountVectorizer(ngram_range = (3,3), analyzer='char', max_features = 5000)
+cv = CountVectorizer(ngram_range = (3,3), analyzer = 'char', max_features = 2000)
 #%%
-x_train_cv = cv.fit_transform(x_train).toarray()
+x = cv.fit_transform(x).toarray()
 #%%
 feature_names = cv.get_feature_names()
-
-
+#%%
+from sklearn.model_selection import train_test_split
+#%%
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.5)
+#%%
+count = 0
+for each in y_test:
+    if each == 1:
+        count += 1
+real_score = count / 5000
+#%%
+from sklearn.svm import SVC
+#%%
+model = SVC()
+#%%
+model.fit(x_train, y_train)
+#%%
+score = model.score(x_test, y_test)
+#%%
+y_pred = model.predict(x_test)
+#%%
+from sklearn.metrics import accuracy_score
+#%%
+accuracy = accuracy_score(y_test, y_pred)
 
 
 
