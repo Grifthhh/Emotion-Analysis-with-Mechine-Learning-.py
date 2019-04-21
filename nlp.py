@@ -36,9 +36,9 @@ for com in data.Comment:
     
 from sklearn.feature_extraction.text import CountVectorizer
 
-max_feature = 5000
+max_feature = 1000
 count_vectorizer = CountVectorizer(max_features = max_feature)
-sparce_matrix = count_vectorizer.fit_transform(comment_list).toarray()
+sparce_matrix = count_vectorizer.fit_transform(comment_list[:1000]).toarray()
     
 #%%
 
@@ -50,7 +50,7 @@ sparce_matrix = count_vectorizer.fit_transform(comment_list).toarray()
     
 #%%
 
-y=data.iloc[:,0].values
+y=data.iloc[:1000,0].values
 x=sparce_matrix
 
 #%%

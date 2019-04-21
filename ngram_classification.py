@@ -6,6 +6,7 @@ Created on Mon Apr 15 08:14:21 2019
 """
 
 import pandas as pd
+import numpy as np
 #%%
 com = pd.read_csv('clean_comments.csv')
 #%%
@@ -35,11 +36,11 @@ com = pd.read_csv('clean_comments.csv')
 rates = pd.read_csv('rates.csv')
 #%%
 x = com.comment.iloc[:10000]
-y = rates.rate_state.iloc[:10000]
+y = rates.rate_state.iloc[:10000].values
 #%%
 from sklearn.feature_extraction.text import CountVectorizer
 #%%
-cv = CountVectorizer(ngram_range = (3,3), analyzer = 'char', max_features = 2000)
+cv = CountVectorizer(ngram_range = (3,3), analyzer = 'char', max_features = 1000)
 #%%
 x = cv.fit_transform(x).toarray()
 #%%
