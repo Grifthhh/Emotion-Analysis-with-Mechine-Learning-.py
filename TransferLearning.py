@@ -59,35 +59,56 @@ def choiceProduct():
     df1=data[data.Category3==urun1]
     df2=data[data.Category3==urun2]
     return urun1, urun2, df1, df2
-#%%
-for each in range(5):
-    urun1, urun2, df1, df2 = choiceProduct()
-    while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or df1.Category2.iloc[0] != df2.Category2.iloc[0]:
-        urun1, urun2, df1, df2 = choiceProduct()
+
+def RFs(df1, df2):
     print('Urun 1 -> ' + df1.Category0.iloc[0] + '-' + df1.Category1.iloc[0] + '-' + df1.Category2.iloc[0] + '-' + df1.Category3.iloc[0])
     print('Urun 2 -> ' + df2.Category0.iloc[0] + '-' + df2.Category1.iloc[0] + '-' + df2.Category2.iloc[0] + '-' + df2.Category3.iloc[0])
     x1=[main_mean_array[each] for each in df1.index]
     x1=np.array(x1)
     y1=df1["Rate State"].values
+    print('Urun 1 ->', end=' ')
     RF(x1, y1)
     x2=[main_mean_array[each] for each in df2.index]
     x2=np.array(x2)
     y2=df2["Rate State"].values
+    print('Urun 2 ->', end=' ')
     RF(x2, y2)
+    print('Urun 1 -> fit, Urun 2 -> predict', end=' ')
     RF_cross(x1, y1, x2, y2)
+    print('Urun 1 -> predict, Urun 2 -> fit', end=' ')
     RF_cross(x2, y2, x1, y1)
 #%%
-urun1, urun2, df1, df2 = choiceProduct()
-while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or (df1.Category2.iloc[0] == df2.Category2.iloc[0] or df1.Category1.iloc[0] != df2.Category1.iloc[0]):
+print('- Catagory 3 -')
+for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
+    while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or df1.Category2.iloc[0] != df2.Category2.iloc[0]:
+        urun1, urun2, df1, df2 = choiceProduct()
+    print('')
+    RFs(df1, df2)
 #%%
-urun1, urun2, df1, df2 = choiceProduct()
-while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or (df1.Category2.iloc[0] == df2.Category2.iloc[0] or df1.Category1.iloc[0] == df2.Category1.iloc[0] or df1.Category0.iloc[0] != df2.Category0.iloc[0]):
+print('- Catagory 2 -')
+for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
+    while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or (df1.Category2.iloc[0] == df2.Category2.iloc[0] or df1.Category1.iloc[0] != df2.Category1.iloc[0]):
+        urun1, urun2, df1, df2 = choiceProduct()
+    print('')
+    RFs(df1, df2)
 #%%
-urun1, urun2, df1, df2 = choiceProduct()
-while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or (df1.Category2.iloc[0] == df2.Category2.iloc[0] or df1.Category1.iloc[0] == df2.Category1.iloc[0] or df1.Category0.iloc[0] == df2.Category0.iloc[0]):
+print('- Catagory 1 -')
+for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
+    while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or (df1.Category2.iloc[0] == df2.Category2.iloc[0] or df1.Category1.iloc[0] == df2.Category1.iloc[0] or df1.Category0.iloc[0] != df2.Category0.iloc[0]):
+        urun1, urun2, df1, df2 = choiceProduct()
+    print('')
+    RFs(df1, df2)
+#%%
+print('- Catagory 0 -')
+for each in range(5):
+    urun1, urun2, df1, df2 = choiceProduct()
+    while (urun1 == 'nan' or urun2 == 'nan') or urun1 == urun2 or (df1.Category2.iloc[0] == df2.Category2.iloc[0] or df1.Category1.iloc[0] == df2.Category1.iloc[0] or df1.Category0.iloc[0] == df2.Category0.iloc[0]):
+        urun1, urun2, df1, df2 = choiceProduct()
+    print('')
+    RFs(df1, df2)
 #%%
 df=data[data.Category3==list_category3[2]]
 x=[main_mean_array[each] for each in df.index]
