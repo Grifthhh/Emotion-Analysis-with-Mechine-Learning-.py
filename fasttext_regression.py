@@ -19,8 +19,8 @@ main_mean_array=np.load('Main_Mean_Array.npy')
 main_mean_array=np.reshape(main_mean_array,(len(main_mean_array),vector_size))
 #%%
 from sklearn.model_selection import train_test_split
-x=main_mean_array[:5000,:]
-y=data["Rate"].values[:5000]
+x=main_mean_array
+y=data["Rate"].values
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.1,random_state=1)
 
 #%%
