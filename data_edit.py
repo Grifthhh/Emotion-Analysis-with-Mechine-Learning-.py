@@ -46,6 +46,6 @@ data.Date=[each.replace("Aralık","12") for each in data.Date]
 data.Date=[each.replace("AralÄ±k","12") for each in data.Date]
 #%%
 data.Date=[datetime.datetime.strptime(each,"%d %m %Y").date() for each in data.Date]
-data.sort_values(by=['Date'], inplace=True, ascending=True)
+#data.sort_values(by=['Date'], inplace=True, ascending=True)
 #%%
 data.to_csv("main_data_v2.csv",index=False)
