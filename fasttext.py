@@ -25,6 +25,10 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 import time
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 
 #%%
@@ -79,7 +83,7 @@ vector_size=250
 main_mean_array=np.load('Main_Mean_Array.npy')
 main_mean_array=np.reshape(main_mean_array,(len(main_mean_array),vector_size))
 #%%-------------------------------------------------------------------------------------------
-#%% Classifier için Svm train modeli edilir
+#%% Classifier için  train modeli edilir
 x=main_mean_array
 y=data["Rate State"].values
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=1)
@@ -112,7 +116,11 @@ plt.ylabel('predicted label')
 models=[GaussianNB(),
        RandomForestClassifier(n_estimators=100),
        KNeighborsClassifier(n_neighbors=5),
-       DecisionTreeClassifier()
+       DecisionTreeClassifier(),
+       GradientBoostingClassifier(),
+       LogisticRegression(multi_class="auto", solver="liblinear"),
+       ExtraTreesClassifier(n_estimators=100),
+       BaggingClassifier()
        ]
 
 def best_model(models, show_metrics=False):
@@ -142,8 +150,8 @@ def best_model(models, show_metrics=False):
             plt.xlabel('true label')
             plt.ylabel('predicted label')
 #%%
-x=main_mean_array[:30000,:]
-y=data["Rate State"].values[:30000]
+x=main_mean_array
+y=data["Rate State"].values
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=1)
 best_model(models,show_metrics=True)
 
