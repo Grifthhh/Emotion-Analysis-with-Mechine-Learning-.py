@@ -20,10 +20,10 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 import random
-#%%data=pd.read_csv("main_data_v2.csv")
+#%% Veriseti yüklenir olumlular =1 olumsuzlar = 0 ile düzenlenir.
 data=pd.read_csv("main_data_v2.csv")
 data["Rate State"]=[1 if each =="Olumlu" else 0 for each in data["Rate State"]]
-#%%
+#%% Ürünlerin kategorileri listeye atanır.
 list_category=[]
 list_category=[str(each) for each in data["Category0"].unique()]
 list_category1=[]
@@ -32,13 +32,14 @@ list_category2=[]
 list_category2=[str(each) for each in data["Category2"].unique()]
 list_category3=[]
 list_category3=[str(each) for each in data["Category3"].unique()]
-#%%
+#%% Fasttext içim main mean array ve 3-gram için n-gram arraylari yüklenir.
 main_mean_array=np.load('Main_Mean_Array.npy')
 vector_size=250
 main_mean_array=np.reshape(main_mean_array,(len(main_mean_array),vector_size))
 ngram_array=np.load('ngram_array_x.npy')
 ngram_array=np.reshape(ngram_array,(len(ngram_array),3000))
 #%%
+#Ürün içi sınıflandırma
 def RF(x,y):
     x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=1)
     clf=RandomForestClassifier(n_estimators=100)
@@ -50,7 +51,8 @@ def RF(x,y):
  #   sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False)
  #   plt.xlabel('true label')
  #   plt.ylabel('predicted label')
-    
+
+    # Ürünler arası sınıflandırma
 def RF_cross(x,y,x2,y2):
     clf=RandomForestClassifier(n_estimators=100)
     clf.fit(x, y)
@@ -61,13 +63,15 @@ def RF_cross(x,y,x2,y2):
 #    sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False   )
  #   plt.xlabel('true label')
  #   plt.ylabel('predicted label')
-    
+ 
+    #Rastgele farklı ve kategorilere uygun ürün seçimi
 def choiceProduct():
     urun1, urun2 = random.choices(list_category3, k=2)
     df1=data[data.Category3==urun1]
     df2=data[data.Category3==urun2]
     return urun1, urun2, df1, df2
 
+# Ürün içi ve ürünler arsı sınıflandırma ve transfer öğrenmeyi hazırlayan fonksiyon
 def RFs(df1, df2):
     print("\n\n Fasttext Model\n")  
     print('Urun 1 -> ' + df1.Category0.iloc[0] + '-' + df1.Category1.iloc[0] + '-' + df1.Category2.iloc[0] + '-' + df1.Category3.iloc[0])
@@ -103,6 +107,7 @@ def RFs(df1, df2):
     print('Urun 1 -> predict, Urun 2 -> fit', end=' ')
     RF_cross(x2, y2, x1, y1)
 #%%
+#Kategori 3 için 
 print('- Catagory 3 -')
 for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
@@ -111,6 +116,7 @@ for each in range(5):
     print('')
     RFs(df1, df2)
 #%%
+#Kategori 2 için 
 print('- Catagory 2 -')
 for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
@@ -119,6 +125,7 @@ for each in range(5):
     print('')
     RFs(df1, df2)
 #%%
+#Kategori 1  için 
 print('- Catagory 1 -')
 for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
@@ -127,6 +134,7 @@ for each in range(5):
     print('')
     RFs(df1, df2)
 #%%
+#Kategori 0 için 
 print('- Catagory 0 -')
 for each in range(5):
     urun1, urun2, df1, df2 = choiceProduct()
