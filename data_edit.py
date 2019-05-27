@@ -10,23 +10,23 @@ import numpy as np
 import datetime
 #%%
 data=pd.read_csv("main_data.csv")
-#%%
+#%% Aynı satıralar çıkartılır ve Yorum puanları 1-5 arasına indirgenir.
 data.drop_duplicates(subset=None, keep="first", inplace=True)
 data["Rate"]=[each.replace("%","") for each in data.Rate]
 data.Rate=[int(each)/20 for each in data.Rate]
-
+#Duygudurum analizi için olumlu olumsuz etiketlemesi yapılır.
 data.Date=[each.split(",")[0] for each in data.Date]
 data["Rate State"]=["Olumsuz" if each<4 else "Olumlu" for each in data.Rate]
 
 #%%
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+# Durum dağılımı histogram ile gösterilir.
 sns.countplot(data["Rate State"])
 plt.title("Rate State",color="green")
 plt.show()
 
-#%%
+#%% Tarihler date formatına çevrilir.
 data.Date=[each.replace("Şubat","02") for each in data.Date]
 data.Date=[each.replace("Åžubat","02") for each in data.Date]
 data.Date=[each.replace("Ocak","01") for each in data.Date]
@@ -46,6 +46,5 @@ data.Date=[each.replace("Aralık","12") for each in data.Date]
 data.Date=[each.replace("AralÄ±k","12") for each in data.Date]
 #%%
 data.Date=[datetime.datetime.strptime(each,"%d %m %Y").date() for each in data.Date]
-#data.sort_values(by=['Date'], inplace=True, ascending=True)
-#%%
+#%% Verisetinin düzenlenmiş hali kaydedilir.
 data.to_csv("main_data_v2.csv",index=False)
